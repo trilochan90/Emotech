@@ -157,12 +157,27 @@ function checkCookie(dis) {
         age =document.getElementById("age").value;
         mobile =document.getElementById("mobile").value;
        if (user != "" && user != null && age != "" && age != null && mobile != "" && mobile != null) {
-           setResponse("Welcome " + user);
-           setResponse("How can I help you?");
-           setCookie("username", user, 30);
-           setCookie("age", age, 30);
-           setCookie("mobile", mobile, 30);
-           registerPatient(user, age, mobile);
+           var res = registerPatient(user, age, mobile);
+           console.info(res);
+           //res = JSON.parse(res);
+           //var return_data = res.data;
+           //console.info(return_data);
+           /*if(return_data!='success' && return_data!='')
+           {
+            setResponse("Welcome again" + return_data.patient_name);
+            setResponse("How can I help you?");
+            setCookie("username", return_data.patient_name, 30);
+            setCookie("age", return_data.patient_age, 30);
+            setCookie("mobile", return_data.patient_mobile, 30);
+           }
+           else if(return_data=='success')
+           {
+            setResponse("Welcome " + user);
+            setResponse("How can I help you?");
+            setCookie("username", user, 30);
+            setCookie("age", age, 30);
+            setCookie("mobile", mobile, 30);
+           }*/
            //sendMail(user, email, mobile);
            $("#intro").hide();
            return false;
@@ -173,6 +188,7 @@ function checkCookie(dis) {
 
 function registerPatient(user, age, mobile)
 {
+  var result_data='';
   $.ajax({
     type: "POST",
     url: "register.php",
@@ -182,13 +198,33 @@ function registerPatient(user, age, mobile)
       'mobile' : mobile
     },
     success: function(response)
-    {   
-      return response;
+    {  
+      var res = $.parseJSON(response);
+      var return_data = res.data;
+      console.info(return_data.data);
+      if(return_data!='success' && return_data!='')
+      {
+        setResponse("Welcome again " + return_data.patient_name);
+        setResponse("How can I help you?");
+        setCookie("username", return_data.patient_name, 30);
+        setCookie("age", return_data.patient_age, 30);
+        setCookie("mobile", return_data.patient_mobile, 30);
+      }
+      else if(return_data=='success')
+      {
+        setResponse("Welcome " + user);
+        setResponse("How can I help you?");
+        setCookie("username", user, 30);
+        setCookie("age", age, 30);
+        setCookie("mobile", mobile, 30);
+      }
     },
     error: function(error) {
         console.log(error);
     }
   });
+  console.info(result_data); 
+  //return result;
 }
 
 function sendMail(user, email, mobile)

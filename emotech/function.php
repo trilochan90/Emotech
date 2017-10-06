@@ -13,7 +13,9 @@ class Controller extends Connection
 		$num_rows = $this->numRows();
 		if($num_rows>0 && $row['patient_mobile']==$patient_mobile)
 		{
-
+			$result = array('data' => $row, 'status' => 200);
+			$result = json_encode($result);
+			return $result;
 		}
 		else
 		{
@@ -21,11 +23,15 @@ class Controller extends Connection
 			$sql=$this->ExecQuery($qry);// Execute query or die if error is occured
 			if(!$sql)
 			{
-				$result = array('error' => 'Query Failed');
+				$result = array('data' => '', 'error' => 'Query Failed', 'status' =>505);
+				$result = json_encode($result);
+				return $result;
 			}
 			if($sql>0)
 			{
-				return true;
+				$result = array('data' => 'success', 'status' => 200);
+				$result = json_encode($result);
+				return $result;
 			}
 		}
 	}

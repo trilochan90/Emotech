@@ -15,6 +15,9 @@
 			.room{cursor: pointer;height: 500px;
 			    background-color: #fff;}
             .form-control {border-radius: 15px;}
+            .response_text li{
+                list-style: none;
+            }
         </style>
         <link href="style.css" rel="stylesheet">
     </head>
