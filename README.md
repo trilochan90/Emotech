@@ -1,2 +1,1 @@
-# Emotech
-SRMHACK
+# emotech
